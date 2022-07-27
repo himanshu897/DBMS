@@ -1,0 +1,141 @@
+Microsoft Windows [Version 10.0.22000.739]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\Himanshu Agarwal>MYSql -u root -p
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 15
+Server version: 8.0.29 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.04 sec)
+
+mysql> create database cricket;
+Query OK, 1 row affected (0.03 sec)
+
+mysql> use cricket;
+Database changed
+mysql> create table batsman(name varchar(40),runs int(10),age int);
+Query OK, 0 rows affected, 1 warning (0.07 sec)
+
+mysql> insert into batsman values("Rohan",550,25);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into batsman (name,runs) values("Mohit",380);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into batsman values("Karan",375,28);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from batsman;
++-------+------+------+
+| name  | runs | age  |
++-------+------+------+
+| Rohan |  550 |   25 |
+| Mohit |  380 | NULL |
+| Karan |  375 |   28 |
++-------+------+------+
+3 rows in set (0.00 sec)
+
+mysql> alter table batsman add centuries int;
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table batsman add fifties int;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from batsman;
++-------+------+------+-----------+---------+
+| name  | runs | age  | centuries | fifties |
++-------+------+------+-----------+---------+
+| Rohan |  550 |   25 |      NULL |    NULL |
+| Mohit |  380 | NULL |      NULL |    NULL |
+| Karan |  375 |   28 |      NULL |    NULL |
++-------+------+------+-----------+---------+
+3 rows in set (0.00 sec)
+
+mysql> alter table batsman drop column fifties;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from batsman;
++-------+------+------+-----------+
+| name  | runs | age  | centuries |
++-------+------+------+-----------+
+| Rohan |  550 |   25 |      NULL |
+| Mohit |  380 | NULL |      NULL |
+| Karan |  375 |   28 |      NULL |
++-------+------+------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> alter table batsman modify column centuries varchar(15);
+Query OK, 3 rows affected (0.07 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> alter table batsman rename column centuries to 100s;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from batsman;
++-------+------+------+------+
+| name  | runs | age  | 100s |
++-------+------+------+------+
+| Rohan |  550 |   25 | NULL |
+| Mohit |  380 | NULL | NULL |
+| Karan |  375 |   28 | NULL |
++-------+------+------+------+
+3 rows in set (0.00 sec)
+
+mysql> update batsman set 100s = 2 where name = 'Rohan';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update batsman set 100s = 1 where name = 'Mohit';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update batsman set 100s = 0 where name = 'Karan';
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from batsman;
++-------+------+------+------+
+| name  | runs | age  | 100s |
++-------+------+------+------+
+| Rohan |  550 |   25 | 2    |
+| Mohit |  380 | NULL | 1    |
+| Karan |  375 |   28 | 0    |
++-------+------+------+------+
+3 rows in set (0.00 sec)
+
+mysql> delete from batsman where name = 'Mohit';
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from batsman;
++-------+------+------+------+
+| name  | runs | age  | 100s |
++-------+------+------+------+
+| Rohan |  550 |   25 | 2    |
+| Karan |  375 |   28 | 0    |
++-------+------+------+------+
+2 rows in set (0.00 sec)
+
+mysql> exit;
+Bye
