@@ -1,0 +1,89 @@
+Microsoft Windows [Version 10.0.22000.739]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\Himanshu Agarwal>mysql -u root -p
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 16
+Server version: 8.0.29 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| cricket            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.05 sec)
+
+mysql> use cricket;
+Database changed
+mysql> select * from batsman;
++-------+------+------+------+
+| name  | runs | age  | 100s |
++-------+------+------+------+
+| Rohan |  550 |   25 | 2    |
+| Karan |  375 |   28 | 0    |
++-------+------+------+------+
+2 rows in set (0.01 sec)
+
+mysql> create view highscorer as select name,runs from batsman where runs>500; // view commands
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> select * from highscorer;
++-------+------+
+| name  | runs |
++-------+------+
+| Rohan |  550 |
++-------+------+
+1 row in set (0.01 sec)
+
+mysql> create table bowler(name varchar(40),wickets int,age int); //create second table
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> insert into bowler values ("Rohan",8,25),("Jay",5,26),("karan",2,28);
+Query OK, 3 rows affected (0.02 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from bowler;
++-------+---------+------+
+| name  | wickets | age  |
++-------+---------+------+
+| Rohan |       8 |   25 |
+| Jay   |       5 |   26 |
+| karan |       2 |   28 |
++-------+---------+------+
+3 rows in set (0.00 sec)
+
+mysql> insert into batsman values ("Yash",650,27,3);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> alter table bowler rename column name to BowlerName;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select batsman.name,batsman.age,bowler.age from batsman inner join bowler on batsman.age = bowler.age; //join command
++-------+------+------+
+| name  | age  | age  |
++-------+------+------+
+| Rohan |   25 |   25 |
+| Karan |   28 |   28 |
++-------+------+------+
+2 rows in set (0.00 sec)
+
+mysql> exit;
+Bye
+
+                                *************************************************************                      
+                 
