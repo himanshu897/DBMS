@@ -1,0 +1,101 @@
+Microsoft Windows [Version 10.0.22000.795]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\Himanshu Agarwal>mysql -u root -p
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.29 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> CREATE DATABASE sport;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> use sport;
+Database changed
+mysql> CREATE TABLE cricket(player_id varchar(20) NOT NULL,Play_Name varchar(25);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> CREATE TABLE cricket(player_id varchar(20) NOT NULL,Play_Name varchar(25));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> INSERT INTO cricket values ("P001","Harsh");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO cricket values (NULL,"Harsh");
+ERROR 1048 (23000): Column 'player_id' cannot be null
+mysql> select * from cricket;
++-----------+-----------+
+| player_id | Play_Name |
++-----------+-----------+
+| P001      | Harsh     |
++-----------+-----------+
+1 row in set (0.01 sec)
+
+mysql> CREATE TABLE football(jersey_No int UNIQUE,Name varchar(25));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> INSERT INTO football values (7,"Ronaldo");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO football values (7,"Antonio");
+ERROR 1062 (23000): Duplicate entry '7' for key 'football.jersey_No'
+mysql> select * from football;
++-----------+---------+
+| jersey_No | Name    |
++-----------+---------+
+|         7 | Ronaldo |
++-----------+---------+
+1 row in set (0.00 sec)
+
+mysql> CREATE TABLE badminton(serial_no int PRIMARY KEY AUTO_INCREMENT,player_name varchar(25));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> INSERT INTO football(player_name) values ("Jay");
+ERROR 1054 (42S22): Unknown column 'player_name' in 'field list'
+mysql> INSERT INTO badminton(player_name) values ("Jay");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO badminton values (1,"Jay");
+ERROR 1062 (23000): Duplicate entry '1' for key 'badminton.PRIMARY'
+mysql> select * from badminton;
++-----------+-------------+
+| serial_no | player_name |
++-----------+-------------+
+|         1 | Jay         |
++-----------+-------------+
+1 row in set (0.00 sec)
+
+mysql> CREATE TABLE student(stud_id varchar(25),CHECK(percent>65),city varchar(15) DEFAULT 'Pune');
+ERROR 3820 (HY000): Check constraint 'student_chk_1' refers to non-existing column 'percent'.
+mysql> CREATE TABLE student(stud_id varchar(25),percent float, CHECK(percent>65),city varchar(15) DEFAULT 'Pune');
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> INSERT INTO student values("A015",75.54,"Mumbai");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO student values("A015",65.25);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> INSERT INTO student(stud_id,percent) values("A056",65.25);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO student(stud_id,percent) values("A025",60.45);
+ERROR 3819 (HY000): Check constraint 'student_chk_1' is violated.
+
+mysql> select * from student;
++---------+---------+--------+
+| stud_id | percent | city   |
++---------+---------+--------+
+| A015    |   75.54 | Mumbai |
+| A056    |   65.25 | Pune   |
++---------+---------+--------+
+2 rows in set (0.00 sec)
+
+mysql> exit;
+Bye
