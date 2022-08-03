@@ -1,0 +1,116 @@
+$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 8.0.30-0ubuntu0.22.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database sport;
+Query OK, 1 row affected (0.03 sec)
+
+mysql> use sport;
+Database changed
+mysql> create table cricket (player_id varchar(20) NOT NULL,Play_Name varchar(40));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> INSERT INTO cricket values("P001","Harsh");
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO cricket(Play_Name) values("Harsh");
+ERROR 1364 (HY000): Field 'player_id' doesn't have a default value
+mysql> INSERT INTO cricket values("Harsh");
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> INSERT INTO cricket values("Rohan");
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> select * from cricket;
++-----------+-----------+
+| player_id | Play_Name |
++-----------+-----------+
+| P001      | Harsh     |
++-----------+-----------+
+1 row in set (0.00 sec)
+
+mysql> INSERT INTO cricket values(NULL,"Rohan");
+ERROR 1048 (23000): Column 'player_id' cannot be null
+mysql> create table football(jersey_No UNIQUE,Name varchar(25));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'UNIQUE,Name varchar(25))' at line 1
+mysql> create table football(jersey_No int UNIQUE,Name varchar(25));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> INSERT INTO football values(9,"Ronaldo");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO football values(9,"Benzama");
+ERROR 1062 (23000): Duplicate entry '9' for key 'football.jersey_No'
+mysql> select * from football;
++-----------+---------+
+| jersey_No | Name    |
++-----------+---------+
+|         9 | Ronaldo |
++-----------+---------+
+1 row in set (0.00 sec)
+
+mysql> create table badminton(player_No int AUTO INCREMENT,gamesplayer_id varchar(20) PRIMARY KEY);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AUTO INCREMENT,gamesplayer_id varchar(20) PRIMARY KEY)' at line 1
+mysql> create table badminton(player_No int AUTOINCREMENT,gamesplayer_id varchar(20) PRIMARYKEY);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AUTOINCREMENT,gamesplayer_id varchar(20) PRIMARYKEY)' at line 1
+mysql> create table badminton(player_No int AUTO_INCREMENT,gamesplayer_id varchar(20) PRIMARY KEY);
+ERROR 1075 (42000): Incorrect table definition; there can be only one auto column and it must be defined as a key
+mysql> create table badminton(player_No int AUTO_INCREMENT,gamesplayer_id varchar(20));
+ERROR 1075 (42000): Incorrect table definition; there can be only one auto column and it must be defined as a key
+mysql> create table badminton(player_No int PRIMARY KEY AUTO_INCREMENT,gamesplayer_id varchar(20));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> INSERT INTO badminton values("CWG001");
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> INSERT INTO badminton values(1,"CWG001");
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from batminton;
+ERROR 1146 (42S02): Table 'sport.batminton' doesn't exist
+mysql> select * from badminton;
++-----------+----------------+
+| player_No | gamesplayer_id |
++-----------+----------------+
+|         1 | CWG001         |
++-----------+----------------+
+1 row in set (0.00 sec)
+
+mysql> INSERT INTO badminton values("CWG001");
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> INSERT INTO badminton values(1,"CWG001");
+ERROR 1062 (23000): Duplicate entry '1' for key 'badminton.PRIMARY'
+mysql> INSERT INTO badminton values(2,"CWG002");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from badminton;
++-----------+----------------+
+| player_No | gamesplayer_id |
++-----------+----------------+
+|         1 | CWG001         |
+|         2 | CWG002         |
++-----------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO badminton(gamesplayer_id) values("CWG003");
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from badminton;
++-----------+----------------+
+| player_No | gamesplayer_id |
++-----------+----------------+
+|         1 | CWG001         |
+|         2 | CWG002         |
+|         3 | CWG003         |
++-----------+----------------+
+3 rows in set (0.01 sec)
+
+
+
