@@ -1,0 +1,153 @@
+ubuntu@ubuntu-OptiPlex-5000:~$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 12
+Server version: 8.0.30-0ubuntu0.22.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database StuInfo;
+Query OK, 1 row affected (0.03 sec)
+
+mysql> use StuInfo;
+Database changed
+mysql> create table ThirdYear(Stu_id varchar(20),Name varchar(20),Contact int, Percent float);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> INSERT INTO ThirdYear values ("A015","Harsh",9857462154,75.35);
+ERROR 1264 (22003): Out of range value for column 'Contact' at row 1
+mysql> ALTER table ThirdYear rename column Contact to Age;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from ThirdYear;
+Empty set (0.00 sec)
+
+mysql> INSERT INTO ThirdYear values ("A015","Harsh",20,75.35);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> INSERT INTO ThirdYear values ("A024","Riya",19,67.35),
+    -> ^C
+mysql> INSERT INTO ThirdYear values ("A024","Riya",19,67.35),("A057","Jay",20,84.24),("A010","Kavya",21,79.45);
+Query OK, 3 rows affected (0.02 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from ThirdYear;
++--------+-------+------+---------+
+| Stu_id | Name  | Age  | Percent |
++--------+-------+------+---------+
+| A015   | Harsh |   20 |   75.35 |
+| A024   | Riya  |   19 |   67.35 |
+| A057   | Jay   |   20 |   84.24 |
+| A010   | Kavya |   21 |   79.45 |
++--------+-------+------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select Name,Age from ThirdYear;
++-------+------+
+| Name  | Age  |
++-------+------+
+| Harsh |   20 |
+| Riya  |   19 |
+| Jay   |   20 |
+| Kavya |   21 |
++-------+------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT Stu_Info,Name FROM ThirdYear WHERE (Percent > 60) AND (Percent <90);
+ERROR 1054 (42S22): Unknown column 'Stu_Info' in 'field list'
+mysql> SELECT Stu_id,Name FROM ThirdYear WHERE (Percent > 60) AND (Percent <90);
++--------+-------+
+| Stu_id | Name  |
++--------+-------+
+| A015   | Harsh |
+| A024   | Riya  |
+| A057   | Jay   |
+| A010   | Kavya |
++--------+-------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT Stu_id,Name FROM ThirdYear WHERE (Percent > 70) AND (Percent <90);
++--------+-------+
+| Stu_id | Name  |
++--------+-------+
+| A015   | Harsh |
+| A057   | Jay   |
+| A010   | Kavya |
++--------+-------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT MAX(Percent) FROM ThirdYear;
++--------------+
+| MAX(Percent) |
++--------------+
+|        84.24 |
++--------------+
+1 row in set (0.02 sec)
+
+mysql> SELECT AVG(Percent) FROM ThirdYear;
++-------------------+
+| AVG(Percent)      |
++-------------------+
+| 76.59749794006348 |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> CREATE VIEW Toppers;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> CREATE VIEW Toppers as SELECT Stu_id,Name,Percent FROm ThirdYear;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> SELECT * FROM ThirdYear;
++--------+-------+------+---------+
+| Stu_id | Name  | Age  | Percent |
++--------+-------+------+---------+
+| A015   | Harsh |   20 |   75.35 |
+| A024   | Riya  |   19 |   67.35 |
+| A057   | Jay   |   20 |   84.24 |
+| A010   | Kavya |   21 |   79.45 |
++--------+-------+------+---------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Toppers;
++--------+-------+---------+
+| Stu_id | Name  | Percent |
++--------+-------+---------+
+| A015   | Harsh |   75.35 |
+| A024   | Riya  |   67.35 |
+| A057   | Jay   |   84.24 |
+| A010   | Kavya |   79.45 |
++--------+-------+---------+
+4 rows in set (0.00 sec)
+
+mysql> ALTER VIEW Toppers as SELECT Stu_id,Name,Percent from ThirdYear WHERE Age between (19,21);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> ALTER Toppers as SELECT Stu_id,Name,Percent from ThirdYear WHERE Age between (19,21);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Toppers as SELECT Stu_id,Name,Percent from ThirdYear WHERE Age between (19,21)' at line 1
+mysql> ALTER VIEW Toppers as SELECT Stu_id,Name,Percent from ThirdYear WHERE Percent between (70,80);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> ALTER VIEW Toppers as SELECT Stu_id,Name,Percent from ThirdYear WHERE (Percent>70)AND(Percent<80);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> SELECT * FROM Toppers;
++--------+-------+---------+
+| Stu_id | Name  | Percent |
++--------+-------+---------+
+| A015   | Harsh |   75.35 |
+| A010   | Kavya |   79.45 |
++--------+-------+---------+
+2 rows in set (0.00 sec)
+
+mysql> drop VIEW Toppers;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT * FROM Toppers;
+ERROR 1146 (42S02): Table 'StuInfo.Toppers' doesn't exist
+mysql> exit
+Bye
