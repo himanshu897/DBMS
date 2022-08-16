@@ -1,0 +1,151 @@
+C:\Users\Himanshu Agarwal>mysql -u root -p
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 10
+Server version: 8.0.29 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| cricket            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sport              |
+| sys                |
++--------------------+
+6 rows in set (0.07 sec)
+
+mysql> use sport;
+Database changed
+mysql> show tables;
++-----------------+
+| Tables_in_sport |
++-----------------+
+| badminton       |
+| cricket         |
+| football        |
+| student         |
++-----------------+
+4 rows in set (0.02 sec)
+
+mysql> select * from badminton;
++-----------+-------------+
+| serial_no | player_name |
++-----------+-------------+
+|         1 | Jay         |
++-----------+-------------+
+1 row in set (0.02 sec)
+
+mysql> select * from cricket;
++-----------+-----------+
+| player_id | Play_Name |
++-----------+-----------+
+| P001      | Harsh     |
++-----------+-----------+
+1 row in set (0.00 sec)
+
+mysql> select * from football;
++-----------+---------+
+| jersey_No | Name    |
++-----------+---------+
+|         7 | Ronaldo |
++-----------+---------+
+1 row in set (0.00 sec)
+
+mysql> select * from student;
++---------+---------+--------+
+| stud_id | percent | city   |
++---------+---------+--------+
+| A015    |   75.54 | Mumbai |
+| A056    |   65.25 | Pune   |
++---------+---------+--------+
+2 rows in set (0.01 sec)
+
+mysql> alter table cricket rename column Play_name to Name;
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> insert into cricket values ("P002","Viraj"),("P003","Ronaldo"),("P004","Yash");
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from cricket;
++-----------+---------+
+| player_id | Name    |
++-----------+---------+
+| P001      | Harsh   |
+| P002      | Viraj   |
+| P003      | Ronaldo |
+| P004      | Yash    |
++-----------+---------+
+4 rows in set (0.00 sec)
+
+mysql> insert into football values (11,"Virat"),(29,"Harsh"),(5,"Yash");
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from football;
++-----------+---------+
+| jersey_No | Name    |
++-----------+---------+
+|         7 | Ronaldo |
+|        11 | Virat   |
+|        29 | Harsh   |
+|         5 | Yash    |
++-----------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select cricket.player_id,cricket.Name,football.jersey_No from cricket inner join football where cricket.Name = football.Name;
++-----------+---------+-----------+
+| player_id | Name    | jersey_No |
++-----------+---------+-----------+
+| P003      | Ronaldo |         7 |
+| P001      | Harsh   |        29 |
+| P004      | Yash    |         5 |
++-----------+---------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> select cricket.player_id,cricket.Name,football.jersey_No from cricket right join football on cricket.Name = football.Name;
++-----------+---------+-----------+
+| player_id | Name    | jersey_No |
++-----------+---------+-----------+
+| P003      | Ronaldo |         7 |
+| NULL      | NULL    |        11 |
+| P001      | Harsh   |        29 |
+| P004      | Yash    |         5 |
++-----------+---------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> select cricket.player_id,cricket.Name,football.jersey_No from cricket left join football on cricket.Name = football.Name;
++-----------+---------+-----------+
+| player_id | Name    | jersey_No |
++-----------+---------+-----------+
+| P001      | Harsh   |        29 |
+| P002      | Viraj   |      NULL |
+| P003      | Ronaldo |         7 |
+| P004      | Yash    |         5 |
++-----------+---------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> select cricket.player_id,cricket.Name,football.jersey_No from cricket cross join football on cricket.Name = football.Name;
++-----------+---------+-----------+
+| player_id | Name    | jersey_No |
++-----------+---------+-----------+
+| P003      | Ronaldo |         7 |
+| P001      | Harsh   |        29 |
+| P004      | Yash    |         5 |
++-----------+---------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> exit;
+Bye
