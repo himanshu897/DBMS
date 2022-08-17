@@ -1,0 +1,70 @@
+mysql> select * from cricket;
++-----------+---------+------+
+| player_id | Name    | Age  |
++-----------+---------+------+
+| P001      | Harsh   |   24 |
+| P002      | Viraj   |   23 |
+| P003      | Ronaldo |   23 |
+| P004      | Yash    |   23 |
+| P010      | Karan   |   24 |
++-----------+---------+------+
+5 rows in set (0.00 sec)
+
+mysql> select * from cricket where Age = (select Age from cricket where Name = "Viraj");
++-----------+---------+------+
+| player_id | Name    | Age  |
++-----------+---------+------+
+| P002      | Viraj   |   23 |
+| P003      | Ronaldo |   23 |
+| P004      | Yash    |   23 |
++-----------+---------+------+
+3 rows in set (0.00 sec)
+
+mysql> select * from cricket where Age > (select Age from cricket where Name = "Viraj");
++-----------+-------+------+
+| player_id | Name  | Age  |
++-----------+-------+------+
+| P001      | Harsh |   24 |
+| P010      | Karan |   24 |
++-----------+-------+------+
+2 rows in set (0.00 sec)
+
+mysql> insert into cricket values("P007","Rohan",21),("P019","Siya",20);
+Query OK, 2 rows affected (0.04 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from cricket;
++-----------+---------+------+
+| player_id | Name    | Age  |
++-----------+---------+------+
+| P001      | Harsh   |   24 |
+| P002      | Viraj   |   23 |
+| P003      | Ronaldo |   23 |
+| P004      | Yash    |   23 |
+| P010      | Karan   |   24 |
+| P007      | Rohan   |   21 |
+| P019      | Siya    |   20 |
++-----------+---------+------+
+7 rows in set (0.00 sec)
+
+mysql> select * from cricket where Age < (select Age from cricket where Name = "Viraj");
++-----------+-------+------+
+| player_id | Name  | Age  |
++-----------+-------+------+
+| P007      | Rohan |   21 |
+| P019      | Siya  |   20 |
++-----------+-------+------+
+2 rows in set (0.00 sec)
+
+mysql> select * from cricket where Age = (select Age from cricket where Name = "Viraj");
++-----------+---------+------+
+| player_id | Name    | Age  |
++-----------+---------+------+
+| P002      | Viraj   |   23 |
+| P003      | Ronaldo |   23 |
+| P004      | Yash    |   23 |
++-----------+---------+------+
+3 rows in set (0.00 sec)
+
+mysql> exit
+Bye
