@@ -1,0 +1,243 @@
+ubuntu@ubuntu-OptiPlex-5000:~$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.30-0ubuntu0.22.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> shoe dtabases;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'shoe dtabases' at line 1
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| ANIMES             |
+| Aksh               |
+| Anime              |
+| B3                 |
+| B4                 |
+| B4_emp             |
+| COMPUTER           |
+| Comp               |
+| EMP                |
+| EMPLOYEE           |
+| Employe            |
+| Employee_Info      |
+| STUDENTS           |
+| StuInfo            |
+| Suyash             |
+| TE                 |
+| TEB                |
+| Tarak              |
+| Webseries          |
+| b2                 |
+| books              |
+| bookstore          |
+| cricket            |
+| details            |
+| empl               |
+| information_schema |
+| movies             |
+| mysql              |
+| patient            |
+| performance_schema |
+| pratik             |
+| sport              |
+| std_name           |
+| student            |
+| students           |
+| sys                |
++--------------------+
+36 rows in set (0.01 sec)
+
+mysql> use student;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_student |
++-------------------+
+| employe           |
+| student_info      |
++-------------------+
+2 rows in set (0.01 sec)
+
+mysql> select * from student_info;
+Empty set (0.00 sec)
+
+mysql> use cricket;
+Database changed
+mysql> show tables;
+Empty set (0.00 sec)
+
+mysql> use sport;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++-----------------+
+| Tables_in_sport |
++-----------------+
+| badminton       |
+| cricket         |
+| football        |
++-----------------+
+3 rows in set (0.00 sec)
+
+mysql> select * FROM cricket;
++-----------+---------+------+
+| player_id | Name    | Age  |
++-----------+---------+------+
+| P001      | Harsh   |   24 |
+| P002      | Viraj   |   23 |
+| P003      | Ronaldo |   23 |
+| P004      | Yash    |   23 |
+| P010      | Karan   |   24 |
+| P007      | Rohan   |   21 |
+| P019      | Siya    |   20 |
++-----------+---------+------+
+7 rows in set (0.00 sec)
+
+mysql> select DISTINCT(Age) from cricket;
++------+
+| Age  |
++------+
+|   24 |
+|   23 |
+|   21 |
+|   20 |
++------+
+4 rows in set (0.03 sec)
+
+mysql> select COUNT(player_id) from cricket;
++------------------+
+| COUNT(player_id) |
++------------------+
+|                7 |
++------------------+
+1 row in set (0.00 sec)
+
+mysql> select COUNT(DISTINCT Age) from cricket;
++---------------------+
+| COUNT(DISTINCT Age) |
++---------------------+
+|                   4 |
++---------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from cricket WHERE Name LIKE 'R%';
++-----------+---------+------+
+| player_id | Name    | Age  |
++-----------+---------+------+
+| P003      | Ronaldo |   23 |
+| P007      | Rohan   |   21 |
++-----------+---------+------+
+2 rows in set (0.00 sec)
+
+mysql> select * from cricket WHERE Name LIKE '%h';
++-----------+-------+------+
+| player_id | Name  | Age  |
++-----------+-------+------+
+| P001      | Harsh |   24 |
+| P004      | Yash  |   23 |
++-----------+-------+------+
+2 rows in set (0.00 sec)
+
+mysql> select * from cricket WHERE Name LIKE '_i%';
++-----------+-------+------+
+| player_id | Name  | Age  |
++-----------+-------+------+
+| P002      | Viraj |   23 |
+| P019      | Siya  |   20 |
++-----------+-------+------+
+2 rows in set (0.00 sec)
+
+mysql> select * from cricket ORDER BY Age;
++-----------+---------+------+
+| player_id | Name    | Age  |
++-----------+---------+------+
+| P019      | Siya    |   20 |
+| P007      | Rohan   |   21 |
+| P002      | Viraj   |   23 |
+| P003      | Ronaldo |   23 |
+| P004      | Yash    |   23 |
+| P001      | Harsh   |   24 |
+| P010      | Karan   |   24 |
++-----------+---------+------+
+7 rows in set (0.00 sec)
+
+mysql> select * from cricket ORDER BY Age DESC;
++-----------+---------+------+
+| player_id | Name    | Age  |
++-----------+---------+------+
+| P001      | Harsh   |   24 |
+| P010      | Karan   |   24 |
+| P002      | Viraj   |   23 |
+| P003      | Ronaldo |   23 |
+| P004      | Yash    |   23 |
+| P007      | Rohan   |   21 |
+| P019      | Siya    |   20 |
++-----------+---------+------+
+7 rows in set (0.00 sec)
+
+mysql> select * from cricket ORDER BY Age (20,23);
+ERROR 1305 (42000): FUNCTION sport.Age does not exist
+mysql> select * from cricket ORDER BY Age in (20,23);
++-----------+---------+------+
+| player_id | Name    | Age  |
++-----------+---------+------+
+| P001      | Harsh   |   24 |
+| P010      | Karan   |   24 |
+| P007      | Rohan   |   21 |
+| P002      | Viraj   |   23 |
+| P003      | Ronaldo |   23 |
+| P004      | Yash    |   23 |
+| P019      | Siya    |   20 |
++-----------+---------+------+
+7 rows in set (0.00 sec)
+
+mysql> select * from cricket WHERE Age in (20,23);
++-----------+---------+------+
+| player_id | Name    | Age  |
++-----------+---------+------+
+| P002      | Viraj   |   23 |
+| P003      | Ronaldo |   23 |
+| P004      | Yash    |   23 |
+| P019      | Siya    |   20 |
++-----------+---------+------+
+4 rows in set (0.00 sec)
+
+mysql> CREATE TABLE player_details(player_id AUTO_INCREMENT int ,Name varchar(25));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AUTO_INCREMENT int ,Name varchar(25))' at line 1
+mysql> CREATE TABLE player_details(player_id PRIMARY KEY AUTO_INCREMENT int ,Name varchar(25));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'PRIMARY KEY AUTO_INCREMENT int ,Name varchar(25))' at line 1
+mysql> CREATE TABLE player_details(player_id int PRIMARY KEY AUTO_INCREMENT,Name varchar(25));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> INSERT INTO player_details(Name)values("Aman");
+Query OK, 1 row affected (0.02 sec)
+
+mysql> Select * from player_details;
++-----------+------+
+| player_id | Name |
++-----------+------+
+|         1 | Aman |
++-----------+------+
+1 row in set (0.00 sec)
+
+mysql> CREATE TABLE player_details(player_id int AUTO_INCREMENT,Name varchar(25));
+ERROR 1050 (42S01): Table 'player_details' already exists
+mysql> CREATE TABLE player_Info(player_id int AUTO_INCREMENT,play_Name varchar(25));
+ERROR 1075 (42000): Incorrect table definition; there can be only one auto column and it must be defined as a key
+mysql> exit;
+Bye
