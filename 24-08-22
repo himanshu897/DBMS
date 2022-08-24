@@ -1,0 +1,204 @@
+mysql> select * from info;
++--------+-----------+---------+
+| rollno | name      | city    |
++--------+-----------+---------+
+|      1 | Aditya    | Pune    |
+|      2 | Samrudhhi | Pune    |
+|      3 | Affan     | Mumbai  |
+|      4 | Tejas     | Jalgaon |
+|      5 | Sweta     | Lucknow |
++--------+-----------+---------+
+5 rows in set (0.03 sec)
+
+mysql> select count(*) from info group by city;
++----------+
+| count(*) |
++----------+
+|        2 |
+|        1 |
+|        1 |
+|        1 |
++----------+
+4 rows in set (0.00 sec)
+
+mysql> select count(name),city from info group by city;
++-------------+---------+
+| count(name) | city    |
++-------------+---------+
+|           2 | Pune    |
+|           1 | Mumbai  |
+|           1 | Jalgaon |
+|           1 | Lucknow |
++-------------+---------+
+4 rows in set (0.00 sec)
+
+mysql> Alter table info add column percet int;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from info;
++--------+-----------+---------+--------+
+| rollno | name      | city    | percet |
++--------+-----------+---------+--------+
+|      1 | Aditya    | Pune    |   NULL |
+|      2 | Samrudhhi | Pune    |   NULL |
+|      3 | Affan     | Mumbai  |   NULL |
+|      4 | Tejas     | Jalgaon |   NULL |
+|      5 | Sweta     | Lucknow |   NULL |
++--------+-----------+---------+--------+
+5 rows in set (0.00 sec)
+
+mysql> Alter table info drop  column percet;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> Alter table info add column percent int;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from info;
++--------+-----------+---------+---------+
+| rollno | name      | city    | percent |
++--------+-----------+---------+---------+
+|      1 | Aditya    | Pune    |    NULL |
+|      2 | Samrudhhi | Pune    |    NULL |
+|      3 | Affan     | Mumbai  |    NULL |
+|      4 | Tejas     | Jalgaon |    NULL |
+|      5 | Sweta     | Lucknow |    NULL |
++--------+-----------+---------+---------+
+5 rows in set (0.01 sec)
+
+mysql> update info set percent = 64 where name = "Aditya";
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update info set percent = 58 where rollno = 2;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update info set percent = 71 where rollno = 3;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update info set percent = 82 where rollno = 4;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update info set percent = 55 where rollno = 5;
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from info;
++--------+-----------+---------+---------+
+| rollno | name      | city    | percent |
++--------+-----------+---------+---------+
+|      1 | Aditya    | Pune    |      64 |
+|      2 | Samrudhhi | Pune    |      58 |
+|      3 | Affan     | Mumbai  |      71 |
+|      4 | Tejas     | Jalgaon |      82 |
+|      5 | Sweta     | Lucknow |      55 |
++--------+-----------+---------+---------+
+5 rows in set (0.00 sec)
+
+mysql> select count(name),percent from info group by percent;
++-------------+---------+
+| count(name) | percent |
++-------------+---------+
+|           1 |      64 |
+|           1 |      58 |
+|           1 |      71 |
+|           1 |      82 |
+|           1 |      55 |
++-------------+---------+
+5 rows in set (0.00 sec)
+
+mysql> select count(name),percent from info group by percent having percent > 60;
++-------------+---------+
+| count(name) | percent |
++-------------+---------+
+|           1 |      64 |
+|           1 |      71 |
+|           1 |      82 |
++-------------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select sum(percent) from info group by city having city = "Pune";
++--------------+
+| sum(percent) |
++--------------+
+|          122 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> select avg(percent) from info group by city having city = "Pune";
++--------------+
+| avg(percent) |
++--------------+
+|      61.0000 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> insert into info values(6,"Swapnil","Mumbai",68),(7,"Jay","Lucknow",89);
+Query OK, 2 rows affected (0.03 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from info;
++--------+-----------+---------+---------+
+| rollno | name      | city    | percent |
++--------+-----------+---------+---------+
+|      1 | Aditya    | Pune    |      64 |
+|      2 | Samrudhhi | Pune    |      58 |
+|      3 | Affan     | Mumbai  |      71 |
+|      4 | Tejas     | Jalgaon |      82 |
+|      5 | Sweta     | Lucknow |      55 |
+|      6 | Swapnil   | Mumbai  |      68 |
+|      7 | Jay       | Lucknow |      89 |
++--------+-----------+---------+---------+
+7 rows in set (0.00 sec)
+
+mysql> select MAX(percent) from info group by city having city = "Mumbai";
++--------------+
+| MAX(percent) |
++--------------+
+|           71 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> select  MAX(percent),count(name) from info group by city having city = "Mumbai";
++--------------+-------------+
+| MAX(percent) | count(name) |
++--------------+-------------+
+|           71 |           2 |
++--------------+-------------+
+1 row in set (0.00 sec)
+
+mysql> select MAX(percent) from info group by city;
++--------------+
+| MAX(percent) |
++--------------+
+|           64 |
+|           71 |
+|           82 |
+|           89 |
++--------------+
+4 rows in set (0.00 sec)
+
+mysql> select MAX(percent), city from info group by city;
++--------------+---------+
+| MAX(percent) | city    |
++--------------+---------+
+|           64 | Pune    |
+|           71 | Mumbai  |
+|           82 | Jalgaon |
+|           89 | Lucknow |
++--------------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select MAX(percent), city from info group by city having city = "Mumbai";
++--------------+--------+
+| MAX(percent) | city   |
++--------------+--------+
+|           71 | Mumbai |
++--------------+--------+
+1 row in set (0.00 sec)
+
