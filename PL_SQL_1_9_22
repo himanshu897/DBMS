@@ -1,0 +1,36 @@
+DECLARE
+	num number := 150;
+BEGIN
+	dbms_output.put_line('Hello world');
+	dbms_output.put_line('Value of num : ' || num );
+END;
+/
+
+OUTPUT:
+
+Connected to:
+Oracle Database 11g Express Edition Release 11.2.0.2.0 - 64bit Production
+
+SQL> edit code.sql
+
+SQL> set serveroutput on
+SQL> @code
+Hello World!!
+Value of num : 100
+
+PL/SQL procedure successfully completed.
+
+DECLARE
+	num number := 150;
+	num1 number := 165;
+	sum number;
+	avg real;
+BEGIN
+	sum := num + num1;
+	dbms_output.put_line('Sum : ' || sum ;
+
+	avg := sum / 2;
+	dbms_output.put_line('Averge : ' || avg );
+	
+END;
+/
