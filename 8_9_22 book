@@ -12,8 +12,11 @@ insert into borrower values(34,'Isha','09-05-2022','DBMS','i');
 insert into borrower values(37,'Mohit','08-18-2022','TOC','i');
 insert into borrower values(05,'Rohan','08-05-2022','DBMS','i');
 insert into borrower values(10,'Jay','08-12-2022','DBMS','i');
+insert into borrower values(17,'Jaya','08-02-2022','DM','i');
+
 
 select * from borrower;
+select * from fines;
 
 */
 
@@ -40,5 +43,15 @@ amnt:=noOfdays*50;
 dbms_output.put_line('Fine: ' ||amnt);
 else
 dbms_output.put_line('No fine');
+END IF;
+IF noOfDays>15 THEN
+INSERT INTO fines values(roll_number,Sysdate,amnt);
+UPDATE borrower set status ='r' where rollno=roll_number;
+END if;
+exception
+when no_data_found then
+dbms_output.put_line(roll_number||' Not Found');
+
 END;
 /
+
