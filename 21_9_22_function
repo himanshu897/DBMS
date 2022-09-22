@@ -1,0 +1,118 @@
+FUNCTION
+
+ set serveroutput on;
+create or replace function fungrade(roll IN number) return varchar2 is
+   class varchar2(20);
+   cursor c1 is
+  select rollno, name, total_marks from stud_marks where rollno=roll;
+    tmp c1%rowtype;
+   begin
+   open c1;
+   fetch c1 into tmp;
+ if(tmp.total_marks>=990 and tmp.total_marks<=1500) then
+ class:='DISTINCTION';
+  insert into result1 values(roll,tmp.name,class);
+ elsif(tmp.total_marks>=900 and tmp.total_marks<=989) then
+  class:='First class';
+  insert into result1 values(roll,tmp.name,class);
+  elsif(tmp.total_marks>=825 and tmp.total_marks<=899) then
+      class:='Second class';
+ insert into result1 values(roll,tmp.name,class);
+  end if ;
+ close c1;
+  dbms_output.put_line('Class: '|| class);
+  return class;
+  end;
+
+
+TO EXECUTE FUNCTION
+declare
+ cclass varchar2(20);
+   begin
+   cclass:=fungrade(1);
+   end;
+
+create table stud_marks(rollno integer, name varchar2(20), total_marks integer);
+create table result1(rollno integer, name varchar2(20), class varchar2(20));
+insert into stud_marks values(1,'Sachin', 1350);
+insert into stud_marks values(2,'Amit',925);
+insert into stud_marks values(3,'Sam',840);
+insert into stud_marks values(4,'Samu',1220);
+insert into stud_marks values(5,'Aman',985);
+insert into stud_marks values(6,'Sonu',850);
+select * from stud_marks;
+select * from result1;
+
+
+
+
+PROCEDURE
+
+
+CREATE OR REPLACE PROCEDURE PROCEDURE_GRADE IS
+Roll Number;
+Stu_Name varchar(50);
+Marks Number;
+CURSOR Cursor1 IS
+SELECT RollNo,Name,Total_Marks FROM Stud_Marks;
+Stud_rec Cursor1%rowtype;
+BEGIN
+OPEN Cursor1;
+LOOP
+FETCH Cursor1 INTO Roll,Stu_Name,Marks;
+EXIT WHEN Cursor1%notfound;
+IF (Marks >= 990 AND Marks <= 1500) THEN
+INSERT INTO Result values(ROLL, Stu_Name, 'DISTINCTION');
+ELSIF (Marks >= 900 AND Marks <= 989) THEN
+INSERT INTO REsult Values(ROLL,Stu_Name,'FIRST CLASS');
+ELSIF (Marks >=825 AND Marks <=899) THEN
+INSERT INTO Result Values(ROLL,Stu_Name,'SECOND CLASS');
+END IF;
+END LOOP;
+CLOSE Cursor1;
+END;
+
+ 
+
+create or replace procedure proc_grade1(roll IN number) 
+   as
+   class varchar2(20);
+   cursor c1 is
+  select rollno, name, total_marks from stud_marks where rollno=roll;
+    tmp c1%rowtype;
+   begin
+   open c1;
+   fetch c1 into tmp;
+ if(tmp.total_marks>=990 and tmp.total_marks<=1500) then
+ class:='DISTINCTION';
+  insert into result1 values(roll,tmp.name,class);
+ elsif(tmp.total_marks>=900 and tmp.total_marks<=989) then
+  class:='first class';
+  insert into result1 values(roll,tmp.name,class);
+  elsif(tmp.total_marks>=825 and tmp.total_marks<=899) then
+      class:='second class';
+ insert into result1 values(roll,tmp.name,class);
+  end if ;
+ close c1;
+  dbms_output.put_line('Class: '|| class);
+  end;
+
+
+
+
+TO EXECUTE procedure
+SQL> begin
+   proc_grade1(2);
+      end;
+  
+class:DISTINCTION
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from result1;
+
+    ROLLNO NAME                 CLASS
+---------- -------------------- --------------------
+         1 Sachin               DISTINCTION
+         2 Amit                 first class
+         1 Sachin               DISTINCTION
