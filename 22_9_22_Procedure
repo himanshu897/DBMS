@@ -1,0 +1,39 @@
+create or replace procedure proc_grade1(roll IN number) 
+   as
+   class varchar2(20);
+   cursor c1 is
+  select rollno, name, total_marks from stud_marks where rollno=roll;
+    tmp c1%rowtype;
+   begin
+   open c1;
+   fetch c1 into tmp;
+ if(tmp.total_marks>=990 and tmp.total_marks<=1500) then
+ class:='DISTINCTION';
+  insert into result1 values(roll,tmp.name,class);
+ elsif(tmp.total_marks>=900 and tmp.total_marks<=989) then
+  class:='first class';
+  insert into result1 values(roll,tmp.name,class);
+  elsif(tmp.total_marks>=825 and tmp.total_marks<=899) then
+      class:='second class';
+ insert into result1 values(roll,tmp.name,class);
+ elsif(tmp.total_marks>=750 and tmp.total_marks<=824) then
+	class:='Pass';
+ 	insert into result1 values(roll,tmp.name,class);
+ else
+     	class:='Fail';
+ 	insert into result1 values(roll,tmp.name,class);
+  end if ;
+ close c1;
+  dbms_output.put_line('Class: '|| class);
+  end;
+  /
+
+
+
+
+
+begin
+	proc_grade1(2);
+end;
+/
+  
