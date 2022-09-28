@@ -1,0 +1,34 @@
+/*
+CREATE TABLE old_RollCall(Rno int, name varchar(20), status varchar(20));
+
+CREATE TABLE new_RollCall(Rno int, name varchar(20), status varchar(20));
+
+INSERT INTO old_RollCall values(5,'Ayush','Absent');
+INSERT INTO old_RollCall values(13,'Siya','Present');
+INSERT INTO old_RollCall values(25,'Mohit','Absent');
+INSERT INTO old_RollCall values(52,'Preeti','Present');
+INSERT INTO old_RollCall values(37,'Om','Absent');
+INSERT INTO new_RollCall values(5,'Ayush','Absent');
+INSERT INTO new_RollCall values(45,'Karan','Present');
+
+
+select * from old_RollCall;
+
+select * from new_RollCall;
+*/
+
+Implicit Cursor
+
+begin 
+update old_RollCall set status='Present' where RNO=5;
+if sql%found then
+	dbms_output.put_line('Updated');
+end if;
+if sql%notfound then
+	dbms_output.put_line(' not Updated');
+end if;
+if sql%rowcount=0 then
+	dbms_output.put_line('not Updated');
+end if;
+end;
+/
