@@ -1,0 +1,163 @@
+ubuntu@ubuntu-OptiPlex-5000:~$ mongosh
+Current Mongosh Log ID:	6346630d22d89b85b180cdb9
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.0
+Using MongoDB:		6.0.1
+Using Mongosh:		1.6.0
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2022-10-12T11:38:27.117+05:30: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine. See http://dochub.mongodb.org/core/prodnotes-filesystem
+   2022-10-12T11:38:27.404+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+   2022-10-12T11:38:27.404+05:30: vm.max_map_count is too low
+------
+
+------
+   Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+   metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+   
+   The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+   and anyone you share the URL with. MongoDB may use this information to make product
+   improvements and to suggest MongoDB products and deployment options to you.
+   
+   To enable free monitoring, run the following command: db.enableFreeMonitoring()
+   To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+------
+
+test> show dbs;
+admin   40.00 KiB
+config  72.00 KiB
+local   72.00 KiB
+test> show collections;
+
+test> db.createcollections('Bookstore');
+TypeError: db.createcollections is not a function
+test> db.createCollections('Bookstore');
+TypeError: db.createCollections is not a function
+test> db.createCollection('Bookstore');
+{ ok: 1 }
+test> db.Bookstore.insertOne({'Name':'DBMS','B_No':234});
+{
+  acknowledged: true,
+  insertedId: ObjectId("63466428c47fbf8c2cc2b2c4")
+}
+test> show collections;
+Bookstore
+test> db.Bookstore.find();
+[
+  {
+    _id: ObjectId("63466428c47fbf8c2cc2b2c4"),
+    Name: 'DBMS',
+    B_No: 234
+  }
+]
+test> db.Bookstore.insertOne({'Name':'TOC','B_No':241,'Stock':50});
+{
+  acknowledged: true,
+  insertedId: ObjectId("6346654ac47fbf8c2cc2b2c5")
+}
+test> db.Bookstore.find();
+[
+  {
+    _id: ObjectId("63466428c47fbf8c2cc2b2c4"),
+    Name: 'DBMS',
+    B_No: 234
+  },
+  {
+    _id: ObjectId("6346654ac47fbf8c2cc2b2c5"),
+    Name: 'TOC',
+    B_No: 241,
+    Stock: 50
+  }
+]
+test> db.Bookstore.insertOne({'Name':'SPOS','B_No':215,'Stock':50,"Author':'ABC'});
+Uncaught:
+SyntaxError: Unterminated string constant. (1:60)
+
+> 1 | db.Bookstore.insertOne({'Name':'SPOS','B_No':215,'Stock':50,"Author':'ABC'});
+    |                                                             ^
+  2 |
+
+test> db.Bookstore.insertOne({'Name':'SPOS','B_No':215,'Stock':50,'Author':'ABC'});
+{
+  acknowledged: true,
+  insertedId: ObjectId("634665efc47fbf8c2cc2b2c6")
+}
+test> db.Bookstore.find();
+[
+  {
+    _id: ObjectId("63466428c47fbf8c2cc2b2c4"),
+    Name: 'DBMS',
+    B_No: 234
+  },
+  {
+    _id: ObjectId("6346654ac47fbf8c2cc2b2c5"),
+    Name: 'TOC',
+    B_No: 241,
+    Stock: 50
+  },
+  {
+    _id: ObjectId("634665efc47fbf8c2cc2b2c6"),
+    Name: 'SPOS',
+    B_No: 215,
+    Stock: 50,
+    Author: 'ABC'
+  }
+]
+test> db.Bookstore.update({'Name':'DBMS'},{$set:'Name':'CNS'});
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:48)
+
+> 1 | db.Bookstore.update({'Name':'DBMS'},{$set:'Name':'CNS'});
+    |                                                 ^
+  2 |
+
+test> db.Bookstore.update({'Name':'DBMS'},{$set:{'Name':'CNS'});
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:56)
+
+> 1 | db.Bookstore.update({'Name':'DBMS'},{$set:{'Name':'CNS'});
+    |                                                         ^
+  2 |
+
+test> db.Bookstore.update({'Name':'DBMS'},{$set:{'Name':'CNS'}});
+DeprecationWarning: Collection.update() is deprecated. Use updateOne, updateMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+test> db.Bookstore.find();
+[
+  { _id: ObjectId("63466428c47fbf8c2cc2b2c4"), Name: 'CNS', B_No: 234 },
+  {
+    _id: ObjectId("6346654ac47fbf8c2cc2b2c5"),
+    Name: 'TOC',
+    B_No: 241,
+    Stock: 50
+  },
+  {
+    _id: ObjectId("634665efc47fbf8c2cc2b2c6"),
+    Name: 'SPOS',
+    B_No: 215,
+    Stock: 50,
+    Author: 'ABC'
+  }
+]
+test> db.Bookstore.remove({'B_No':241});
+DeprecationWarning: Collection.remove() is deprecated. Use deleteOne, deleteMany, findOneAndDelete, or bulkWrite.
+{ acknowledged: true, deletedCount: 1 }
+test> db.Bookstore.find();
+[
+  { _id: ObjectId("63466428c47fbf8c2cc2b2c4"), Name: 'CNS', B_No: 234 },
+  {
+    _id: ObjectId("634665efc47fbf8c2cc2b2c6"),
+    Name: 'SPOS',
+    B_No: 215,
+    Stock: 50,
+    Author: 'ABC'
+  }
+]
