@@ -1,0 +1,269 @@
+RELATIONAL OPERTORS
+
+test> show collections;
+Bank
+Bookstore
+test> db.Bank.find();
+[
+  {
+    _id: ObjectId("63466d75ec5c5ae2fdde864c"),
+    Name: 'BOI',
+    B_No: 241,
+    City: 'Pune'
+  }
+]
+test> db.Bank.insertOne({'Name':'SBI','B_No':342,'City':'Mumbai'});
+{
+  acknowledged: true,
+  insertedId: ObjectId("63479717c7e80299a284a98b")
+}
+test> db.Bank.insertOne({'Name':'Kotak':115,'City':'Delhi'});
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:33)
+
+> 1 | db.Bank.insertOne({'Name':'Kotak':115,'City':'Delhi'});
+    |                                  ^
+  2 |
+
+test> db.Bank.insertOne({'Name':'Kotak','B_No':115,'City':'Delhi'});
+{
+  acknowledged: true,
+  insertedId: ObjectId("634797b7c7e80299a284a98c")
+}
+test> db.Bank.insertOne({'Name':'HDFC','B_No':456,'City':'Gujarat'});
+{
+  acknowledged: true,
+  insertedId: ObjectId("634797d9c7e80299a284a98d")
+}
+test> db.Bank.find();
+[
+  {
+    _id: ObjectId("63466d75ec5c5ae2fdde864c"),
+    Name: 'BOI',
+    B_No: 241,
+    City: 'Pune'
+  },
+  {
+    _id: ObjectId("63479717c7e80299a284a98b"),
+    Name: 'SBI',
+    B_No: 342,
+    City: 'Mumbai'
+  },
+  {
+    _id: ObjectId("634797b7c7e80299a284a98c"),
+    Name: 'Kotak',
+    B_No: 115,
+    City: 'Delhi'
+  },
+  {
+    _id: ObjectId("634797d9c7e80299a284a98d"),
+    Name: 'HDFC',
+    B_No: 456,
+    City: 'Gujarat'
+  }
+]
+
+$eq Operation
+
+test> db.Bank.find({'B_No':{$eq:342}}).pretty();
+[
+  {
+    _id: ObjectId("63479717c7e80299a284a98b"),
+    Name: 'SBI',
+    B_No: 342,
+    City: 'Mumbai'
+  }
+]
+test> db.Bank.find({'B_No':{$eq:341}}).pretty();
+
+test> db.Bank.find({'Name':{$eq:'HDFC'}}).pretty();
+[
+  {
+    _id: ObjectId("634797d9c7e80299a284a98d"),
+    Name: 'HDFC',
+    B_No: 456,
+    City: 'Gujarat'
+  }
+]
+test> db.Bank.find({'Name':{$eq:'HSBC'}}).pretty();
+
+test> db.Bookstore.find();
+[
+  { _id: ObjectId("63466428c47fbf8c2cc2b2c4"), Name: 'CNS', B_No: 234 },
+  {
+    _id: ObjectId("634665efc47fbf8c2cc2b2c6"),
+    Name: 'SPOS',
+    B_No: 215,
+    Stock: 50,
+    Author: 'ABC'
+  },
+  {
+    _id: ObjectId("634670a1ab9029fa039e3953"),
+    Name: 'DBMS',
+    B_No: 234
+  }
+]
+
+$gt and $lt
+
+test> db.Bookstore.find({'Stock':{$gt:50}}).pretty();
+
+test> db.Bookstore.find({'Stock':{$lt:50}}).pretty();
+
+$gte and $lte
+
+test> db.Bookstore.find({'Stock':{$gte:50}}).pretty();
+[
+  {
+    _id: ObjectId("634665efc47fbf8c2cc2b2c6"),
+    Name: 'SPOS',
+    B_No: 215,
+    Stock: 50,
+    Author: 'ABC'
+  }
+]
+
+test> db.Bookstore.find({'Stock':{$lte:50}});
+[
+  {
+    _id: ObjectId("634665efc47fbf8c2cc2b2c6"),
+    Name: 'SPOS',
+    B_No: 215,
+    Stock: 50,
+    Author: 'ABC'
+  }
+]
+
+
+test> db.Bookstore.find();
+[
+  { _id: ObjectId("63466428c47fbf8c2cc2b2c4"), Name: 'CNS', B_No: 234 },
+  {
+    _id: ObjectId("634665efc47fbf8c2cc2b2c6"),
+    Name: 'SPOS',
+    B_No: 215,
+    Stock: 50,
+    Author: 'ABC'
+  },
+  {
+    _id: ObjectId("634670a1ab9029fa039e3953"),
+    Name: 'DBMS',
+    B_No: 234
+  }
+]
+
+$in and $nin
+
+test> db.Bookstore.find(
+... {'B_No':{$in:[215, 234]}}).pretty();
+[
+  { _id: ObjectId("63466428c47fbf8c2cc2b2c4"), Name: 'CNS', B_No: 234 },
+  {
+    _id: ObjectId("634665efc47fbf8c2cc2b2c6"),
+    Name: 'SPOS',
+    B_No: 215,
+    Stock: 50,
+    Author: 'ABC'
+  },
+  {
+    _id: ObjectId("634670a1ab9029fa039e3953"),
+    Name: 'DBMS',
+    B_No: 234
+  }
+]
+test> db.Bookstore.find( { 'B_No': { $nin: [215, 234] } }).pretty();
+
+test> db.Bookstore.find( { 'B_No': { $nin: [220, 234] } }).pretty();
+[
+  {
+    _id: ObjectId("634665efc47fbf8c2cc2b2c6"),
+    Name: 'SPOS',
+    B_No: 215,
+    Stock: 50,
+    Author: 'ABC'
+  }
+]
+
+$ne not equal
+
+test> db.Bookstore.find( { 'B_No': { $ne:220 } }).pretty();
+[
+  { _id: ObjectId("63466428c47fbf8c2cc2b2c4"), Name: 'CNS', B_No: 234 },
+  {
+    _id: ObjectId("634665efc47fbf8c2cc2b2c6"),
+    Name: 'SPOS',
+    B_No: 215,
+    Stock: 50,
+    Author: 'ABC'
+  },
+  {
+    _id: ObjectId("634670a1ab9029fa039e3953"),
+    Name: 'DBMS',
+    B_No: 234
+  }
+]
+test> db.Bookstore.find( { 'B_No': { $ne:215 } }).pretty();
+[
+  { _id: ObjectId("63466428c47fbf8c2cc2b2c4"), Name: 'CNS', B_No: 234 },
+  {
+    _id: ObjectId("634670a1ab9029fa039e3953"),
+    Name: 'DBMS',
+    B_No: 234
+  }
+]
+
+LOGICAL OPERATERS
+
+and OPERATOR
+
+test> db.Bookstore.find({$and:[{'Name':'SPOS'},{'B_No':215}]}).pretty();
+[
+  {
+    _id: ObjectId("634665efc47fbf8c2cc2b2c6"),
+    Name: 'SPOS',
+    B_No: 215,
+    Stock: 50,
+    Author: 'ABC'
+  }
+]
+
+or OPERATOR
+
+test> db.Bookstore.find({$or:[{'Name':'SPOS'},{'Name':'CNS'}]}).pretty();
+[
+  { _id: ObjectId("63466428c47fbf8c2cc2b2c4"), Name: 'CNS', B_No: 234 },
+  {
+    _id: ObjectId("634665efc47fbf8c2cc2b2c6"),
+    Name: 'SPOS',
+    B_No: 215,
+    Stock: 50,
+    Author: 'ABC'
+  }
+]
+
+nor OPERATOR
+
+test> db.Bookstore.find({$nor:[{'Name':'SPOS'},{'Name':'CNS'}]}).pretty();
+[
+  {
+    _id: ObjectId("634670a1ab9029fa039e3953"),
+    Name: 'DBMS',
+    B_No: 234
+  }
+]
+
+
+NOT OPERATOR
+
+test> db.Bookstore.find({'B_No':{$not:{$gte: 220}}}).pretty();
+...   {
+...     _id: ObjectId("634665efc47fbf8c2cc2b2c6"),
+...     Name: 'SPOS',
+...     B_No: 215,
+...     Stock: 50,
+...     Author: 'ABC'
+...   }
+.
+
+
+
