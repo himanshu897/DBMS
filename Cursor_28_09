@@ -35,6 +35,26 @@ end if;
 end;
 /
 
+explicit cursor
+
+declare
+cursor explicit_cur is select rno,name,status from o_rollcall where status='present';
+tmp explicit_cur%rowtype;
+begin
+open explicit_cur;
+loop exit when explicit_cur%notfound;
+fetch explicit_cur into tmp;
+dbms_output.put_line('    RollNo:      '|| tmp.rno || '     NAME:      '|| tmp.name ||'         STATUS:      '||tmp.status);
+ end loop;
+ if explicit_cur%rowcount>0 then
+ dbms_output.put_line(explicit_cur%rowcount||'rows found');
+ else
+ dbms_output.put_line('No rows found');
+ end if;
+ close explicit_cur;
+ end;
+ /
+
 /*for loop cursor:present student are displayed */
 
 declare
