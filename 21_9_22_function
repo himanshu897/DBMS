@@ -33,7 +33,7 @@ FUNCTION
   declare
  cclass varchar2(20);
    begin
-   cclass:=fungrade(1);
+   cclass:=fungrade(3);
    end;
 /
 
